@@ -1,0 +1,48 @@
+name: Data Quality Monitoring
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  dq-analysis:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Install uv
+      uses: astral-sh/setup-uv@v3
+      with:
+        version: "latest"
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+    
+    - name: Install Java (required for PySpark)
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+    
+    - name: Install dependencies
+      run: |
+        uv sync
+    
+    - name: Run data quality analysis
+      run: |
+        source .venv/bin/activate
+        python scripts/run_dq_analysis.py --data test_data/grant_applications.csv --output output
+    
+    - name: Upload results
+      uses: actions/upload-artifact@v3
+      with:
+        name: dq-dimension-scores
+        path: output/dq_dimension_scores/
+        retention-days: 30
+

@@ -1,0 +1,89 @@
+ingestion:
+  required_columns:
+    - taxpayer_id
+    - nric
+    - full_name
+    - filing_status
+    - assessment_year
+    - filing_date
+    - annual_income_sgd
+    - chargeable_income_sgd
+    - tax_payable_sgd
+    - tax_paid_sgd
+    - total_reliefs_sgd
+    - number_of_dependents
+    - occupation
+    - residential_status
+    - postal_code
+    - housing_type
+    - cpf_contributions_sgd
+    - foreign_income_sgd
+
+storage:
+  local:
+    bronze_path: "../test_output/bronze"
+    silver_path: "../test_output/silver"
+    gold_path: "../test_output/gold"
+    rejected_path: "../test_output/rejected"
+  cloud:
+    # bronze_path: "s3://tax-data/bronze"
+    # silver_path: "s3://tax-data/silver"
+    # gold_path: "s3://tax-data/gold"
+    # rejected_path: "s3://tax-data/rejected"
+    bronze_path: "s3://tax-data-pipeline-bronze-dev"
+    silver_path: "s3://tax-data-pipeline-silver-dev"
+    gold_path: "s3://tax-data-pipeline-gold-dev"
+    rejected_path: "s3://tax-data-pipeline-rejected-dev"
+
+occupation_categories:
+  Engineering:
+    - Engineer
+    - Developer
+    - Software
+    - Network
+    - Systems
+    - DevOps
+    - Cybersecurity
+    - Ux Designer
+    - Ui Designer
+    - Technical Lead
+    - Technical Architect
+  Management:
+    - Manager
+    - Director
+    - Senior
+    - VP
+    - Managing
+  Healthcare:
+    - Doctor
+    - Nurse
+    - Medical
+  Finance:
+    - Accountant
+    - Finance
+    - Investment
+    - Banker
+  Sales:
+    - Sales
+    - Marketing
+  Operations:
+    - Operations
+    - Support
+    - Administrative
+    - Customer Service
+  Consulting:
+    - Consultant
+    - Analyst
+    - Business Analyst
+    - Data Analyst
+  Legal:
+    - Legal
+    - Counsel
+  Education:
+    - Teacher
+    - Education
+  Research:
+    - Research
+    - Scientist
+  Other: []
+

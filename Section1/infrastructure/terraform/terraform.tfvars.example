@@ -1,0 +1,28 @@
+# Copy this file to terraform.tfvars and update with your values
+
+aws_region = "ap-southeast-1"
+environment = "prod"
+project_name = "tax-data-pipeline"
+
+# Glue Configuration
+glue_job_name = "tax-pipeline-etl"
+glue_version = "4.0"
+glue_worker_type = "G.1X"
+glue_number_of_workers = 2
+glue_max_workers = 10
+glue_timeout = 60
+
+# EventBridge Schedule (Daily at 2 AM UTC)
+eventbridge_schedule = "cron(0 2 * * ? *)"
+
+# VPC Configuration (set to true for production)
+enable_vpc = false
+# vpc_id = "vpc-xxxxxxxxx"
+# subnet_ids = ["subnet-xxxxxxxxx", "subnet-yyyyyyyyy"]
+# security_group_ids = ["sg-xxxxxxxxx"]
+
+# S3 Script Location (leave empty to use auto-created scripts bucket)
+# s3_script_bucket = ""
+# s3_script_key = "pipeline/main.py"
+# s3_dependencies_key = "pipeline/dependencies.zip"
+

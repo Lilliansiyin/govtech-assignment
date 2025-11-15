@@ -1,0 +1,35 @@
+validation:
+  nric:
+    pattern: "^[STFG]\\d{7}[A-Z]$"
+    allow_empty: false
+  
+  postal_code:
+    pattern: "^\\d{6}$"
+    min_value: 10000
+    max_value: 829999
+  
+  tax_calculation:
+    tolerance: 0.1
+  
+  cpf:
+    non_resident_must_be_zero: true
+  
+  date:
+    iso_pattern: "^\\d{4}-\\d{2}-\\d{2}$"
+    ddmmyyyy_pattern: "^\\d{1,2}/\\d{1,2}/\\d{4}$"
+    iso_format: "yyyy-MM-dd"
+    ddmmyyyy_format: "dd/MM/yyyy"
+
+data_quality:
+  weights:
+    nric: 0.25
+    postal_code: 0.15
+    filing_date: 0.20
+    tax_calculation: 0.15
+    cpf: 0.10
+    completeness: 0.15
+  
+  thresholds:
+    accept: 0.8
+    quarantine: 0.6
+

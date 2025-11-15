@@ -1,0 +1,173 @@
+name: Deploy Tax Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'pipeline/**'
+      - 'infrastructure/**'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'prod'
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+env:
+  AWS_REGION: ap-southeast-1
+  PYTHON_VERSION: '3.10'
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          cd pipeline
+          pip install -r requirements.txt
+          pip install pytest pytest-cov
+
+      - name: Run unit tests
+        run: |
+          cd pipeline
+          pytest tests/unit/ -v --cov=src --cov-report=xml
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./pipeline/coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+
+  build-and-upload:
+    name: Build and Upload Pipeline Code
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Get S3 bucket name from Terraform
+        id: get-bucket
+        run: |
+          cd infrastructure/terraform
+          terraform init -input=false || {
+            echo "Terraform init failed"
+            exit 1
+          }
+          BUCKET_NAME=$(terraform output -raw s3_bucket_scripts 2>/dev/null || echo "")
+          if [ -z "$BUCKET_NAME" ]; then
+            echo "⚠️ Bucket not found in Terraform outputs. Using default naming."
+            BUCKET_NAME="${PROJECT_NAME:-tax-data-pipeline}-scripts-${ENVIRONMENT:-prod}"
+          fi
+          echo "bucket_name=$BUCKET_NAME" >> $GITHUB_OUTPUT
+
+      - name: Build dependencies package
+        run: |
+          cd pipeline
+          zip -r dependencies.zip src/ config/
+
+      - name: Upload pipeline code to S3
+        run: |
+          cd pipeline
+          aws s3 cp main.py s3://${{ steps.get-bucket.outputs.bucket_name }}/pipeline/main.py
+          aws s3 cp dependencies.zip s3://${{ steps.get-bucket.outputs.bucket_name }}/pipeline/dependencies.zip
+
+      - name: Update Glue job
+        run: |
+          aws glue update-job \
+            --job-name tax-pipeline-etl \
+            --job-update '{
+              "Command": {
+                "ScriptLocation": "s3://${{ steps.get-bucket.outputs.bucket_name }}/pipeline/main.py"
+              },
+              "DefaultArguments": {
+                "--extra-py-files": "s3://${{ steps.get-bucket.outputs.bucket_name }}/pipeline/dependencies.zip"
+              }
+            }'
+
+  deploy-infrastructure:
+    name: Deploy Infrastructure
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && contains(github.event.head_commit.message, '[deploy-infra]'))
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0
+
+      - name: Terraform Init
+        run: |
+          cd infrastructure/terraform
+          terraform init -input=false || {
+            echo "❌ Terraform initialization failed"
+            exit 1
+          }
+
+      - name: Terraform Plan
+        run: |
+          cd infrastructure/terraform
+          terraform plan -out=tfplan -input=false || {
+            echo "❌ Terraform plan failed"
+            exit 1
+          }
+
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd infrastructure/terraform
+          terraform apply -auto-approve tfplan
+
+  notify:
+    name: Notify Deployment Status
+    needs: [test, build-and-upload]
+    runs-on: ubuntu-latest
+    if: always()
+    
+    steps:
+      - name: Deployment Status
+        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Pipeline deployment successful"
+          else
+            echo "❌ Pipeline deployment failed"
+            exit 1
+          fi
+
