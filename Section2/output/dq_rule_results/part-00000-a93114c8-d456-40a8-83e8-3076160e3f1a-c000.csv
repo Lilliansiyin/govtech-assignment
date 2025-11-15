@@ -1,0 +1,26 @@
+execution_id,rule_id,dimension_name,rule_name,total_rows,passing_rows,failing_rows,failure_rate
+486ef110-e386-48d7-8852-fb6165b8b997,C001,Completeness,application_id is not null/empty,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,C002,Completeness,application_date is not null/empty,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,C003,Completeness,application_status is not null/empty,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,C004,Completeness,requested_amount is not null,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,C005,Completeness,approved_amount is not null when Approved,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,C006,Completeness,decision_date is not null when Approved/Rejected,10000,9355,645,6.45
+486ef110-e386-48d7-8852-fb6165b8b997,U001,Uniqueness,application_id is unique,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,U002,Uniqueness,No exact duplicate rows,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,V001,Validity,citizen_nric matches NRIC format,10000,5560,4440,44.4
+486ef110-e386-48d7-8852-fb6165b8b997,V002,Validity,household_income in valid range,10000,8500,1500,15.0
+486ef110-e386-48d7-8852-fb6165b8b997,V003,Validity,requested_amount >= 0,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,V004,Validity,approved_amount >= 0 when not null,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,V005,Validity,household_size in valid range (1-20),10000,9892,108,1.08
+486ef110-e386-48d7-8852-fb6165b8b997,V006,Validity,approved_amount only when Approved,10000,6650,3350,33.5
+486ef110-e386-48d7-8852-fb6165b8b997,V007,Validity,No placeholder values,10000,7156,2844,28.44
+486ef110-e386-48d7-8852-fb6165b8b997,CF001,Conformity,decision_date follows YYYY-MM-DD format,10000,9541,459,4.59
+486ef110-e386-48d7-8852-fb6165b8b997,CF002,Conformity,application_date is ISO or canonicalizable,10000,7989,2011,20.11
+486ef110-e386-48d7-8852-fb6165b8b997,CF003,Conformity,application_status matches canonical values,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,CF004,Conformity,grant_scheme_name matches catalog,10000,10000,0,0.0
+486ef110-e386-48d7-8852-fb6165b8b997,CS001,Consistency,decision_date >= application_date,10000,7822,2178,21.78
+486ef110-e386-48d7-8852-fb6165b8b997,CS002,Consistency,approved_amount <= requested_amount when Approved,10000,9669,331,3.31
+486ef110-e386-48d7-8852-fb6165b8b997,CS003,Consistency,decision_date NULL when Pending,10000,6985,3015,30.15
+486ef110-e386-48d7-8852-fb6165b8b997,CS004,Consistency,decision_date NOT NULL when Approved/Rejected,10000,9355,645,6.45
+486ef110-e386-48d7-8852-fb6165b8b997,T001,Timeliness,decision_lag <= 30 days,10000,7322,2678,26.78
+486ef110-e386-48d7-8852-fb6165b8b997,T002,Timeliness,application_date not > 5 years old,10000,7989,2011,20.11

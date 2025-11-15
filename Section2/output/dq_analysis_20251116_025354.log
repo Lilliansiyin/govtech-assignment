@@ -1,0 +1,32 @@
+{"asctime": "2025-11-16 02:53:54,709", "name": "__main__", "levelname": "INFO", "message": "Logging configured. Log file: /Users/lisi/Downloads/govtech-assignment/Section2/output/dq_analysis_20251116_025354.log"}
+{"asctime": "2025-11-16 02:53:54,710", "name": "src.config.config_loader", "levelname": "INFO", "message": "Loaded configuration from /Users/lisi/Downloads/govtech-assignment/Section2/src/config/rules_config.yaml"}
+{"asctime": "2025-11-16 02:53:57,224", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Spark session created"}
+{"asctime": "2025-11-16 02:53:57,331", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Loaded 25 rules"}
+{"asctime": "2025-11-16 02:53:57,331", "name": "src.evaluator", "levelname": "INFO", "message": "Initialized RuleEvaluator with 25 rules"}
+{"asctime": "2025-11-16 02:53:57,331", "name": "src.dimension_aggregator", "levelname": "INFO", "message": "Initialized DimensionAggregator for 6 dimensions"}
+{"asctime": "2025-11-16 02:53:57,331", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Loading data from /Users/lisi/Downloads/govtech-assignment/Section2/test_data/grant_applications.csv"}
+{"asctime": "2025-11-16 02:53:58,922", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Loaded 10000 rows"}
+{"asctime": "2025-11-16 02:53:58,981", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Evaluating all rules..."}
+{"asctime": "2025-11-16 02:53:59,429", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Calculating dimension scores..."}
+{"asctime": "2025-11-16 02:53:59,658", "name": "src.dimension_aggregator", "levelname": "INFO", "message": "Dimension Completeness: Score = 93.55% (9355/10000 rows passing all 6 rules)"}
+{"asctime": "2025-11-16 02:54:00,091", "name": "src.dimension_aggregator", "levelname": "INFO", "message": "Dimension Uniqueness: Score = 100.00% (10000/10000 rows passing all 2 rules)"}
+{"asctime": "2025-11-16 02:54:00,512", "name": "src.dimension_aggregator", "levelname": "INFO", "message": "Dimension Validity: Score = 23.75% (2375/10000 rows passing all 7 rules)"}
+{"asctime": "2025-11-16 02:54:01,099", "name": "src.dimension_aggregator", "levelname": "INFO", "message": "Dimension Conformity: Score = 76.24% (7624/10000 rows passing all 4 rules)"}
+{"asctime": "2025-11-16 02:54:01,218", "name": "src.dimension_aggregator", "levelname": "INFO", "message": "Dimension Consistency: Score = 46.37% (4637/10000 rows passing all 4 rules)"}
+{"asctime": "2025-11-16 02:54:03,231", "name": "src.dimension_aggregator", "levelname": "INFO", "message": "Dimension Timeliness: Score = 65.37% (6537/10000 rows passing all 2 rules)"}
+{"asctime": "2025-11-16 02:54:03,248", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Generating rule results..."}
+{"asctime": "2025-11-16 02:54:06,927", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Saving execution record to /Users/lisi/Downloads/govtech-assignment/Section2/output/dq_execution"}
+{"asctime": "2025-11-16 02:54:07,462", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Saving dimension scores to /Users/lisi/Downloads/govtech-assignment/Section2/output/dq_dimension_scores"}
+{"asctime": "2025-11-16 02:54:07,615", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Saving minimal dimension scores to /Users/lisi/Downloads/govtech-assignment/Section2/output/dq_dimension_scores_minimal"}
+{"asctime": "2025-11-16 02:54:07,731", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Saving rule results to /Users/lisi/Downloads/govtech-assignment/Section2/output/dq_rule_results"}
+{"asctime": "2025-11-16 02:54:07,840", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Saving legacy full results to /Users/lisi/Downloads/govtech-assignment/Section2/output/dq_dimension_scores_full"}
+{"asctime": "2025-11-16 02:54:07,996", "name": "src.pipeline.orchestrator", "levelname": "INFO", "message": "Analysis completed successfully"}
+{"asctime": "2025-11-16 02:54:07,996", "name": "__main__", "levelname": "INFO", "message": "\n=================================================="}
+{"asctime": "2025-11-16 02:54:07,996", "name": "__main__", "levelname": "INFO", "message": "DATA QUALITY DIMENSION SCORES"}
+{"asctime": "2025-11-16 02:54:07,996", "name": "__main__", "levelname": "INFO", "message": "=================================================="}
+{"asctime": "2025-11-16 02:54:08,091", "name": "__main__", "levelname": "INFO", "message": "=================================================="}
+{"asctime": "2025-11-16 02:54:08,091", "name": "__main__", "levelname": "INFO", "message": "Execution ID: 486ef110-e386-48d7-8852-fb6165b8b997"}
+{"asctime": "2025-11-16 02:54:08,091", "name": "__main__", "levelname": "INFO", "message": "Analysis completed. Output directory: /Users/lisi/Downloads/govtech-assignment/Section2/output"}
+{"asctime": "2025-11-16 02:54:08,091", "name": "__main__", "levelname": "INFO", "message": "Log file: /Users/lisi/Downloads/govtech-assignment/Section2/output/dq_analysis_20251116_025354.log"}
+{"asctime": "2025-11-16 02:54:09,087", "name": "__main__", "levelname": "INFO", "message": "DQ analysis completed successfully"}
+{"asctime": "2025-11-16 02:54:09,088", "name": "py4j.clientserver", "levelname": "INFO", "message": "Closing down clientserver connection"}
