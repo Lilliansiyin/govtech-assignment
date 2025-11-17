@@ -32,7 +32,7 @@ JOIN dim_time t ON f.time_key = t.time_key
 GROUP BY t.filing_year, t.filing_month
 ORDER BY t.filing_year, t.filing_month;
 ```
-![](/docs/imgs/athena-1.png)
+![](/Section1/docs/imgs/athena-1.png)
 ---
 
 ## Business Objective 2: Income & Tax Patterns by Demographics
@@ -57,7 +57,7 @@ FROM fact_tax_returns f
 JOIN dim_taxpayer p ON f.taxpayer_key = p.taxpayer_key
 GROUP BY p.filing_status;
 ```
-![](/docs/imgs/athena-2.1.png)
+![](/Section1/docs/imgs/athena-2.1.png)
 
 **By Residential Status & Dependents:**
 ```sql
@@ -72,7 +72,7 @@ JOIN dim_taxpayer p ON f.taxpayer_key = p.taxpayer_key
 GROUP BY p.residential_status, p.number_of_dependents
 ORDER BY p.residential_status, p.number_of_dependents;
 ```
-![](/docs/imgs/athena-2.2.png)
+![](/Section1/docs/imgs/athena-2.2.png)
 ---
 
 ## Business Objective 3: Geographic Revenue Contribution
@@ -100,7 +100,7 @@ JOIN dim_location l ON f.location_key = l.location_key
 GROUP BY l.region
 ORDER BY total_revenue DESC;
 ```
-![](/docs/imgs/athena-3.1.png)
+![](/Section1/docs/imgs/athena-3.1.png)
 
 **Revenue by Housing Type:**
 ```sql
@@ -114,7 +114,7 @@ JOIN dim_location l ON f.location_key = l.location_key
 GROUP BY l.housing_type
 ORDER BY total_revenue DESC;
 ```
-![](/docs/imgs/athena-3.2.png)
+![](/Section1/docs/imgs/athena-3.2.png)
 
 **Top Contributing Postal Codes:**
 ```sql
@@ -130,7 +130,7 @@ GROUP BY l.postal_code, l.region, l.housing_type
 ORDER BY total_revenue DESC
 LIMIT 20;
 ```
-![](/docs/imgs/athena-3.3.png)
+![](/Section1/docs/imgs/athena-3.3.png)
 ---
 
 ## Business Objective 4: Occupation Compliance Comparison
@@ -161,7 +161,7 @@ JOIN dim_occupation o ON f.occupation_key = o.occupation_key
 GROUP BY o.occupation_category
 ORDER BY avg_compliance_rate DESC;
 ```
-![](/docs/imgs/athena-4.1.png)
+![](/Section1/docs/imgs/athena-4.1.png)
 
 **Detailed Compliance by Specific Occupation:**
 ```sql
@@ -178,7 +178,7 @@ GROUP BY o.occupation, o.occupation_category
 HAVING COUNT(*) >= 5  -- Filter for meaningful sample size
 ORDER BY avg_compliance DESC;
 ```
-![](/docs/imgs/athena-4.2.png)
+![](/Section1/docs/imgs/athena-4.2.png)
 
 ---
 

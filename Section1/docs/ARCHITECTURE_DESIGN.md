@@ -279,7 +279,7 @@ Create 7 buckets with:
 - Versioning enabled (data buckets)
 - SSE-S3 encryption
 - Lifecycle policies: Archive to Glacier after 30 days (raw/bronze/silver), delete after 1 year (rejected)
-![](/docs/imgs/s3-buckets.png)
+![](/Section1/docs/imgs/s3-buckets.png)
 
 
 ### 2. Create IAM Role
@@ -290,7 +290,7 @@ Create 7 buckets with:
   - S3 access (read/write to all data buckets)
   - Glue Data Catalog access
   - CloudWatch Logs access
-![](/docs/imgs/iam-glue-role.png)
+![](/Section1/docs/imgs/iam-glue-role.png)
 
 ### 3. Create Glue Data Catalog Database
 
@@ -323,7 +323,7 @@ Update `pipeline_config.yaml` with S3 bucket paths before creating zip.
 - **Schedule name**: `tax-data-pipeline-daily-schedule-dev`
 - **Cron**: `0 2 * * ? *` (Daily at 2 AM UTC)
 - **State**: Activated
-![](/docs/imgs/glue-job.png)
+![](/Section1/docs/imgs/glue-job.png)
 
 
 ### 7. Create Athena Workgroup
@@ -342,8 +342,8 @@ Create crawlers for Bronze, Silver, and Gold layers to auto-discover schemas and
 2. Run Glue job manually
 3. Verify output in Bronze, Silver, Gold, Rejected buckets
 4. Query data using Athena
-![](/docs/imgs/cloudwatch.png)
-![](/docs/imgs/glue-db.png)
+![](/Section1/docs/imgs/cloudwatch.png)
+![](/Section1/docs/imgs/glue-db.png)
 
 
 ## Cost Analysis
